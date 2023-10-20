@@ -1,11 +1,10 @@
 import Koa from 'koa'
-import http from 'http'
 import koaBody from 'koa-body'
-import { getIpAddress } from './utils/util'
+import cors from 'koa2-cors'
 import { loggerMiddleware } from './log/log'
 import { FIXED_KEY } from './config/constant'
-import { privateRouter, publicRouter } from './router'
 import { errorHandler, responseHandler } from './middleware/response'
+import connectMongodb from './utils/connectMongodb'
 
 const app = new Koa()
 
@@ -18,32 +17,23 @@ app.use(errorHandler)
 // Global middleware
 app.use(koaBody({ multipart: true }))
 
-// Routes
+// 设置跨域
+app.use(cors())
 
-app.use(publicRouter.routes()).use(publicRouter.allowedMethods()) // 公共路由
-
-app.use(privateRouter.routes()).use(privateRouter.allowedMethods()) // 私有路由
+connectMongodb()
 
 // Response
-
 app.use(responseHandler)
+
+// 配置跨域
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', '*')
+  ctx.set('Access-Control-Allow-Headers', 'authorization')
+  await next()
+})
 
 const port = FIXED_KEY.port
 
-const server = http.createServer(app.callback())
-
-server.listen(port)
-
-server.on('error', (err: Error) => {
-  console.log(err)
-})
-
-server.on('listening', () => {
-  const ip = getIpAddress()
-
-  const address = `http://${ip}:${port}`
-
-  const localAddress = `http://localhost:${port}`
-
-  console.log(`app started at address \n\n${localAddress}\n\n${address}`)
+app.listen(port, () => {
+  console.log(`selever started on ${port}`)
 })

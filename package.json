@@ -1,0 +1,48 @@
+{
+  "name": "react-admin-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/main.ts",
+  "scripts": {
+    "dev": "nodemon ./src/main.ts",
+    "test": "pm2 start config/pm2.config.js --only test",
+    "prod": "pm2 start config/pm2.config.js --only production",
+    "stop": "pm2 stop config/pm2.config.js",
+    "delete": "pm2 delete config/pm2.config.js",
+    "list": "pm2 list"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "dsh",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^2.14.2",
+    "koa-body": "^6.0.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^11.0.2",
+    "log4js": "^6.9.1",
+    "lowdb": "^6.1.0",
+    "mongoose": "^7.6.3",
+    "pm2": "^5.3.0",
+    "qs": "^6.11.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/koa": "^2.13.10",
+    "@types/koa-router": "^7.4.6",
+    "@types/log4js": "^2.3.5",
+    "@types/node": "^20.8.7",
+    "@types/qs": "^6.9.9",
+    "@types/request": "^2.48.11",
+    "@types/sequelize": "^4.28.17",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.51.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
